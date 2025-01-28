@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import gestgym.com.gestgym.models.Customer;
+import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.models.Suscription;
+import gestgym.com.gestgym.services.CustomerService;
+import gestgym.com.gestgym.services.PackService;
 import gestgym.com.gestgym.services.SuscriptionService;
 
 @RestController
@@ -21,6 +25,12 @@ import gestgym.com.gestgym.services.SuscriptionService;
 public class SuscriptionController {
     @Autowired
     private SuscriptionService suscriptionService;
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private PackService packService;
 
     @GetMapping("/read-all-suscription")
     public ResponseEntity<List<Suscription>> readAllSuscription() {
@@ -35,7 +45,15 @@ public class SuscriptionController {
     }
 
     @PostMapping("/save-suscription")
-    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription suscription) {
+    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription requestSuscription) {
+        Customer customer = customerService.readOneCustomer(requestSuscription.getCustomer_id());
+        Pack pack = packService.readOnePack(requestSuscription.getPack_id());
+
+        Suscription suscription = new Suscription();
+        suscription.setCustomer(customer);
+        suscription.setPack(pack);
+        suscription.setStart_date(requestSuscription.getStart_date());
+
         Suscription saveSuscription = suscriptionService.saveSuscription(suscription);
         return ResponseEntity.ok(saveSuscription);
     }

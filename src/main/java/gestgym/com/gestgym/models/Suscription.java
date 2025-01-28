@@ -1,5 +1,6 @@
 package gestgym.com.gestgym.models;
 
+import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -20,18 +21,27 @@ import lombok.NoArgsConstructor;
 @Table(name = "suscription")
 public class Suscription {
 
+
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long Id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
+
+    @ManyToOne(optional = false)
     @JoinColumn(name = "pack_id", nullable = false)
     private Pack pack;
 
     private LocalDateTime start_date;
+
+    @Transient
+    private Long pack_id;
+
+    @Transient
+    private Long customer_id;
+
 
 }
