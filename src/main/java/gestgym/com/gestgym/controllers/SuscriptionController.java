@@ -45,15 +45,11 @@ public class SuscriptionController {
     }
 
     @PostMapping("/save-suscription")
-    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription requestSuscription) {
-        Customer customer = customerService.readOneCustomer(requestSuscription.getCustomer_id());
-        Pack pack = packService.readOnePack(requestSuscription.getPack_id());
-
-        Suscription suscription = new Suscription();
+    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription suscription) {
+        Customer customer = customerService.readOneCustomer(suscription.getCustomer_id());
+        Pack pack = packService.readOnePack(suscription.getPack_id());
         suscription.setCustomer(customer);
         suscription.setPack(pack);
-        suscription.setStart_date(requestSuscription.getStart_date());
-
         Suscription saveSuscription = suscriptionService.saveSuscription(suscription);
         return ResponseEntity.ok(saveSuscription);
     }
