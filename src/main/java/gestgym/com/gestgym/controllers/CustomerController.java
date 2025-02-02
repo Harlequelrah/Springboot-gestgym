@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gestgym.com.gestgym.models.Customer;
-import gestgym.com.gestgym.services.CustomerService;
+import gestgym.com.gestgym.services.Customer.CustomerService;
 
 @RestController
 @RequestMapping("/customers")

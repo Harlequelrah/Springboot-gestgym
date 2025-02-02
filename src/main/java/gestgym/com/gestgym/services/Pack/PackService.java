@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Pack;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ public class PackService implements IPackService {
 
     @Override
     public Pack readOnePack(Long pack_id) {
-        if (pack_id != null && packRepository.existsById(pack_id)) {
+        if (isValidId(pack_id)) {
             return packRepository.findById(pack_id).orElse(null);
         } else {
-            throw new RuntimeException("Pack with id " + pack_id + " Not Found");
+            throw new UnsupportedOperationException("Error occured while reading pack with id " + pack_id);
         }
     }
 
@@ -34,19 +34,28 @@ public class PackService implements IPackService {
 
     @Override
     public Pack updatePack(Long pack_id, Pack pack) {
-        if (pack_id != null && packRepository.existsById(pack_id) && pack_id == pack.getId()) {
+        if (isValidId((pack_id)) && pack_id == pack.getId()) {
             return packRepository.save(pack);
         } else {
-            throw new RuntimeException("Error occurred while updating Pack with id : " + pack_id);
+            throw new UnsupportedOperationException("Error occurred while updating Pack with id : " + pack_id);
         }
     }
 
     @Override
     public void deletePack(Long pack_id) {
-        if (packRepository.existsById(pack_id)) {
+        if (isValidId(pack_id)) {
             packRepository.deleteById(pack_id);
         } else {
-            throw new RuntimeException("Error occurred while deleting Pack with id : " + pack_id);
+            throw new UnsupportedOperationException("Error occurred while deleting Pack with id : " + pack_id);
+        }
+    }
+
+    @Override
+    public boolean isValidId(Long pack_id) {
+        if (pack_id != null && packRepository.existsById(pack_id)) {
+            return true;
+        } else {
+            throw new UnsupportedOperationException("Pack with id " + pack_id + " not found");
         }
     }
 

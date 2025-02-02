@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,14 +23,20 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String last_name;
 
+    @NotNull
     private String first_name;
 
+    @NotNull
     private LocalDateTime registration_date;
 
+    @NotNull
     private String phone_number;
 
+    @NotNull
     private boolean active_suscription;
+
 
 }

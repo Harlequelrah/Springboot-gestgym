@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import gestgym.com.gestgym.models.Customer;
 import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.models.Suscription;
-import gestgym.com.gestgym.services.CustomerService;
-import gestgym.com.gestgym.services.PackService;
-import gestgym.com.gestgym.services.SuscriptionService;
+import gestgym.com.gestgym.services.Customer.CustomerService;
+import gestgym.com.gestgym.services.Pack.PackService;
+import gestgym.com.gestgym.services.Suscription.SuscriptionService;
 
 @RestController
 @RequestMapping("/suscriptions")

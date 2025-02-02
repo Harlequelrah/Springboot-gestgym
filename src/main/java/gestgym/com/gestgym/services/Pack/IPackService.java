@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Pack;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface IPackService {
     public Pack updatePack(Long pack_id, Pack pack);
 
     public void deletePack(Long pack_id);
+
+    public boolean isValidId(Long pack_id);
 }

@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Customer;
 
 import java.util.List;
 
@@ -14,6 +14,8 @@ public interface ICustomerService {
     public Customer updateCustomer(Long customer_id, Customer customer);
 
     public void deleteCustomer(Long customer_id);
+
+    public boolean isValidId(Long customer_id);
 
 
 }

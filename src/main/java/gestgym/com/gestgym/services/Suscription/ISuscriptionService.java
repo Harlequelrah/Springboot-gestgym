@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Suscription;
 
 import java.util.List;
 
@@ -14,5 +14,7 @@ public interface ISuscriptionService {
     public Suscription updateSuscription(Long suscription_id, Suscription suscription);
 
     public void deleteSuscription(Long suscription_id);
+
+    public boolean isValidId(Long suscription_id);
 
 }

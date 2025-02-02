@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Suscription;
 
 import java.util.List;
 
@@ -20,12 +20,12 @@ public class SuscriptionService implements ISuscriptionService {
 
     @Override
     public Suscription readOneSuscription(Long suscription_id) {
-        if (suscription_id != null && suscriptionRepository.existsById(suscription_id)) {
+        if (isValidId(suscription_id)) {
             return suscriptionRepository.findById(suscription_id).orElse(null);
 
         }
         else {
-            throw new RuntimeException("Suscription with id " + suscription_id + " Not Found");
+            throw new UnsupportedOperationException("Error occured while reading suscription with id " + suscription_id);
         }
     }
 
@@ -36,20 +36,30 @@ public class SuscriptionService implements ISuscriptionService {
 
     @Override
     public Suscription updateSuscription(Long suscription_id, Suscription suscription) {
-        if (suscription_id != null && suscriptionRepository.existsById(suscription_id)
+        if (isValidId(suscription_id)
                 && suscription_id == suscription.getId()) {
             return suscriptionRepository.save(suscription);
         } else {
-            throw new RuntimeException("Error occurred while updating Suscription with id : " + suscription_id);
+            throw new UnsupportedOperationException("Error occurred while updating Suscription with id : " + suscription_id);
         }
     }
 
     @Override
     public void deleteSuscription(Long suscription_id) {
-        if (suscription_id != null && suscriptionRepository.existsById(suscription_id)) {
+        if (isValidId((suscription_id))) {
             suscriptionRepository.deleteById(suscription_id);
         } else {
-            throw new RuntimeException("Error occurred while deleting Suscription with id : " + suscription_id);
+            throw new UnsupportedOperationException(
+                    "Error occurred while deleting Suscription with id : " + suscription_id);
+        }
+    }
+
+    @Override
+    public boolean isValidId(Long suscription_id) {
+        if (suscription_id != null && suscriptionRepository.existsById(suscription_id)) {
+            return true;
+        } else {
+            throw new UnsupportedOperationException("Suscription with id " + suscription_id + " not found");
         }
     }
 }

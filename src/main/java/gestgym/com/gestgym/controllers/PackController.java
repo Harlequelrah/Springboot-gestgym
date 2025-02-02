@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gestgym.com.gestgym.models.Pack;
-import gestgym.com.gestgym.services.PackService;
+import gestgym.com.gestgym.services.Pack.PackService;
 
 @RestController
 @RequestMapping("/packs")

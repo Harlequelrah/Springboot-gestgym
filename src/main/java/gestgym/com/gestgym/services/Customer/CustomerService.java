@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services;
+package gestgym.com.gestgym.services.Customer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +19,10 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer readOneCustomer(Long customer_id) {
-        if ( customer_id!=null && customerRepository.existsById(customer_id)) {
+        if ( isValidId(customer_id)) {
             return customerRepository.findById(customer_id).orElse(null);
         } else {
-            throw new RuntimeException("Customer with id " + customer_id + " not found");
+            throw new UnsupportedOperationException("Error occured while reading customer " + customer_id + " not found");
         }
 
     }
@@ -36,22 +36,30 @@ public class CustomerService implements ICustomerService {
     @Override
 
     public Customer updateCustomer(Long customer_id, Customer customer) {
-        if (customer_id !=null && customerRepository.existsById(customer_id) && customer_id == customer.getId()) {
+        if (isValidId(customer_id) && customer_id == customer.getId()) {
             return customerRepository.save(customer);
         } else {
-            throw new RuntimeException("Error occurred while updating Customer with id : " + customer_id);
+            throw new UnsupportedOperationException("Error occurred while updating Customer with id : " + customer_id);
         }
 
     }
 
     public void deleteCustomer(Long customer_id) {
-        if (customerRepository.existsById(customer_id)) {
+        if (isValidId(customer_id)) {
             customerRepository.deleteById(customer_id);
-        }
-        else {
-            throw new RuntimeException("Error occured while deleting customer with " + customer_id);
+        } else {
+            throw new UnsupportedOperationException("Error occured while deleting customer with " + customer_id);
         }
 
+    }
+
+    @Override
+    public boolean isValidId(Long customer_id) {
+        if (customer_id != null && customerRepository.existsById(customer_id)) {
+            return true;
+        } else {
+            throw new UnsupportedOperationException("Customer with id " + customer_id + " not found");
+        }
     }
 
 }

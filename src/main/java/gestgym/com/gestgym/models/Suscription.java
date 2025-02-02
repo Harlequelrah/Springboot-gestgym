@@ -1,6 +1,8 @@
 package gestgym.com.gestgym.models;
 
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -35,6 +37,7 @@ public class Suscription {
     @JoinColumn(name = "pack_id", nullable = false)
     private Pack pack;
 
+    @NotNull
     private LocalDateTime start_date;
 
     @Transient
