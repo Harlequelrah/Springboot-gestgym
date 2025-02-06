@@ -39,6 +39,7 @@ public class Customer {
     private String last_name;
 
     @CurrentTimestamp
+    @Column(updatable = false)
     @NotNull(message = "Registration date is mandatory")
     private LocalDateTime registration_date;
 
