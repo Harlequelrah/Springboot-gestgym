@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -15,7 +16,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -27,25 +30,28 @@ public class User implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank(message="Firstname is mandatory")
     private String firstName;
 
-    @NotNull
+    @NotBlank(message = "Lastname is mandatory")
     private String lastName;
 
-
-    private boolean isActive = true;
+    @NotNull
+    private Boolean isActive;
 
     @Column(unique = true)
-    @NotNull
+    @NotBlank(message = "Username is mandatory")
     private String username;
 
+    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    // private List<Token> tokens;
 
-    @NotNull
+
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     @Enumerated(value = EnumType.STRING)
-    @NotNull
+    @NotNull(message="Role is mandatory")
     private Role role;
 
     @Override

@@ -28,6 +28,7 @@ public class AuthenticationService implements IAuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
+    @Override
     public AuthenticationResponse register(User request) {
         User user = new User();
         user.setUsername(request.getUsername());
@@ -36,18 +37,21 @@ public class AuthenticationService implements IAuthenticationService {
         user.setFirstName(request.getFirstName());
         user.setRole(request.getRole());
         user = userRepository.save(user);
-        String token = jwtService.generateToken(user);
-        return new AuthenticationResponse(token);
+        String access_token = jwtService.generateAccessToken(user);
+        String refresh_token = jwtService.generateRefreshToken(user);
+        return new AuthenticationResponse(access_token, refresh_token);
     }
 
-    public AuthenticationResponse authenticate(User request)
-    {
+
+    @Override
+    public AuthenticationResponse authenticate(User request) {
         authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
 
-        String token = jwtService.generateToken(user);
-        return new AuthenticationResponse(token);
+        String access_token = jwtService.generateAccessToken(user);
+        String refresh_token = jwtService.generateRefreshToken(user);
+        return new AuthenticationResponse(access_token, refresh_token);
     }
 
 }

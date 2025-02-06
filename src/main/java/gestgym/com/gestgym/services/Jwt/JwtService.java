@@ -1,6 +1,5 @@
 package gestgym.com.gestgym.services.Jwt;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
@@ -38,8 +37,6 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-
-
     public <T> T extractClaim(String token, Function<Claims, T> resolver) {
         Claims claims = extractAllClaims(token);
         return resolver.apply(claims);
@@ -55,17 +52,24 @@ public class JwtService {
                 .getPayload();
     }
 
-
-
-    public String generateToken(User user) {
+    public String generateToken(User user, long expireTime) {
         String token = Jwts
                 .builder()
                 .subject(user.getUsername())
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 24 * 30 * 30 * 1000))
+                .expiration(new Date(System.currentTimeMillis() + expireTime))
+                .claim("role",user.getRole())
                 .signWith(getSigninKey())
                 .compact();
         return token;
+    }
+
+    public String generateAccessToken(User user) {
+        return generateToken(user, 15 * 60 * 1000);
+    }
+
+    public String generateRefreshToken(User user) {
+        return generateToken(user, 1 * 60 * 60 * 1000);
 
     }
 
