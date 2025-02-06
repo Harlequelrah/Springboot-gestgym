@@ -2,6 +2,7 @@ package gestgym.com.gestgym.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -23,14 +25,20 @@ import gestgym.com.gestgym.services.User.IUserDetailsService;
 @EnableWebSecurity
 public class SecurityConfig {
 
+
+
     private final IUserDetailsService iUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(IUserDetailsService iUserDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(IUserDetailsService iUserDetailsService, JwtAuthenticationFilter jwtAuthenticationFilter,
+            CustomAccessDeniedHandler accessDeniedHandler) {
         this.iUserDetailsService = iUserDetailsService;
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-
+        this.accessDeniedHandler = accessDeniedHandler;
     }
+
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,6 +56,10 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated())
                 .userDetailsService(iUserDetailsService)
+                .exceptionHandling(e -> e.accessDeniedHandler(
+                        accessDeniedHandler)
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
