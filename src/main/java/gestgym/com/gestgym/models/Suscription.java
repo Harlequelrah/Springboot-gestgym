@@ -30,14 +30,15 @@ public class Suscription {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id", nullable = false)
+    @NotNull(message = "Customer is mandatory")
     private Customer customer;
-
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "pack_id", nullable = false)
+    @NotNull(message = "Pack is mandatory")
     private Pack pack;
 
-    @NotNull
+    @NotNull(message = "Start date is mandatory")
     private LocalDateTime start_date;
 
     @Transient

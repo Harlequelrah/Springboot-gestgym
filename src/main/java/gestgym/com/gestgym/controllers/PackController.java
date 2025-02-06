@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import gestgym.com.gestgym.exceptions.RessourceDeletionException;
+import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
+import gestgym.com.gestgym.exceptions.RessourceUpdateException;
 import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.services.Pack.PackService;
 
@@ -29,7 +32,7 @@ public class PackController {
     }
 
     @GetMapping("/read-one-pack/{pack_id}")
-    public ResponseEntity<Pack> readOnePack(@PathVariable Long pack_id) {
+    public ResponseEntity<Pack> readOnePack(@PathVariable Long pack_id) throws RessourceNotFoundException {
         Pack pack = packService.readOnePack(pack_id);
         return ResponseEntity.ok(pack);
     }
@@ -40,13 +43,13 @@ public class PackController {
         return ResponseEntity.ok(savePack);
     }
     @PutMapping("/update-pack/{pack_id}")
-    public ResponseEntity<Pack> updatePack(@PathVariable Long pack_id , @RequestBody Pack pack)
+    public ResponseEntity<Pack> updatePack(@PathVariable Long pack_id , @RequestBody Pack pack) throws RessourceNotFoundException, RessourceUpdateException
     {
         Pack savePack = packService.updatePack(pack_id, pack);
         return ResponseEntity.ok(savePack);
     }
     @DeleteMapping("/delete-pack/{pack_id}")
-    public ResponseEntity<Void> deletePack(@PathVariable Long pack_id)
+    public ResponseEntity<Void> deletePack(@PathVariable Long pack_id) throws RessourceNotFoundException, RessourceDeletionException
     {
         packService.deletePack(pack_id);
         return ResponseEntity.noContent().build();

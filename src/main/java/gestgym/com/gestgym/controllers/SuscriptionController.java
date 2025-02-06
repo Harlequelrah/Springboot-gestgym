@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import gestgym.com.gestgym.exceptions.RessourceDeletionException;
+import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
+import gestgym.com.gestgym.exceptions.RessourceUpdateException;
 import gestgym.com.gestgym.models.Customer;
 import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.models.Suscription;
@@ -39,13 +42,13 @@ public class SuscriptionController {
     }
 
     @GetMapping("/read-one-suscription/{suscription_id}")
-    public ResponseEntity<Suscription> readOneSuscription(@PathVariable Long suscription_id) {
+    public ResponseEntity<Suscription> readOneSuscription(@PathVariable Long suscription_id) throws RessourceNotFoundException {
         Suscription suscription = suscriptionService.readOneSuscription(suscription_id);
         return ResponseEntity.ok(suscription);
     }
 
     @PostMapping("/save-suscription")
-    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription suscription) {
+    public ResponseEntity<Suscription> saveSuscription(@RequestBody Suscription suscription) throws RessourceNotFoundException {
         Customer customer = customerService.readOneCustomer(suscription.getCustomer_id());
         Pack pack = packService.readOnePack(suscription.getPack_id());
         suscription.setCustomer(customer);
@@ -55,14 +58,14 @@ public class SuscriptionController {
     }
 
     @PutMapping("/update-suscription/{suscription_id}")
-    public ResponseEntity<Suscription> updateSuscription(@PathVariable Long suscription_id , @RequestBody Suscription suscription)
+    public ResponseEntity<Suscription> updateSuscription(@PathVariable Long suscription_id , @RequestBody Suscription suscription) throws RessourceNotFoundException, RessourceUpdateException
     {
         Suscription saveSuscription = suscriptionService.updateSuscription(suscription_id, suscription);
         return ResponseEntity.ok(saveSuscription);
     }
 
     @DeleteMapping("/delete-suscription/{suscription_id}")
-    public ResponseEntity<Void> deleteSuscription(@PathVariable Long suscription_id)
+    public ResponseEntity<Void> deleteSuscription(@PathVariable Long suscription_id) throws RessourceNotFoundException, RessourceDeletionException
     {
         suscriptionService.deleteSuscription(suscription_id);
         return ResponseEntity.noContent().build();
