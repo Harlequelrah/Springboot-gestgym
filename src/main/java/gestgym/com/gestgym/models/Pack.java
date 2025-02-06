@@ -1,11 +1,9 @@
 package gestgym.com.gestgym.models;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -27,6 +25,7 @@ public class Pack {
     private String offer_name;
 
     @NotNull(message = "Duration in months is mandatory")
+    @Positive(message="Duration in months must be positive")
     private Integer duration_months;
 
     @NotNull(message = "Monthly price is mandatory")

@@ -2,6 +2,8 @@ package gestgym.com.gestgym.models;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CurrentTimestamp;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -36,6 +38,7 @@ public class Customer {
     @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String last_name;
 
+    @CurrentTimestamp
     @NotNull(message = "Registration date is mandatory")
     private LocalDateTime registration_date;
 

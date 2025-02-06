@@ -5,6 +5,7 @@ import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,15 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY = "d43454fb9a099294acbd114f72d0c216f4341ab0d95554b38515177ccc7e79c5";
+
+    @Value("${application.security.jwt.secret-key}")
+    private  String secretKey ;
+
+    @Value("${application-security.jwt.access-token-expiration}")
+    private long accessTokenExpire;
+
+    @Value("${application-security.jwt.refresh-token-expiration}")
+    private long refreshTokenExpire;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -65,16 +74,16 @@ public class JwtService {
     }
 
     public String generateAccessToken(User user) {
-        return generateToken(user, 15 * 60 * 1000);
+        return generateToken(user, this.accessTokenExpire);
     }
 
     public String generateRefreshToken(User user) {
-        return generateToken(user, 1 * 60 * 60 * 1000);
+        return generateToken(user,this.refreshTokenExpire);
 
     }
 
     private SecretKey getSigninKey() {
-        byte[] keyBytes = Decoders.BASE64URL.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
