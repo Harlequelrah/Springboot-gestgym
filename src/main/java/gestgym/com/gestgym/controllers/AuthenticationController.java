@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.models.AccessToken;
 import gestgym.com.gestgym.models.AuthenticationResponse;
+import gestgym.com.gestgym.models.RefreshToken;
 import gestgym.com.gestgym.models.User;
 import gestgym.com.gestgym.repositories.UserRepository;
 import gestgym.com.gestgym.services.Authentication.AuthenticationService;
 import gestgym.com.gestgym.services.Jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -48,17 +52,13 @@ public class AuthenticationController {
         return ResponseEntity.ok(userLoggingIn);
     }
 
+
     @PostMapping("refresh-token")
     public ResponseEntity<AccessToken> refreshToken (
-    HttpServletRequest request,
-    HttpServletResponse response
+    @RequestBody RefreshToken refreshToken
     ) throws RessourceNotFoundException
     {
-        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return new ResponseEntity<AccessToken>(HttpStatus.UNAUTHORIZED);
-        }
-        String token = authHeader.substring(7);
+        String token = refreshToken.getRefresh_token();
 
         String username = jwtService.extractUsername(token);
         User user = userRepository.findByUsername(username).orElseThrow(
