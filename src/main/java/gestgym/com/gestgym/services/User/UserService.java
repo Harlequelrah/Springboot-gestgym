@@ -36,7 +36,7 @@ public class UserService implements IUserService {
             user.setFirstName(userDetails.getFirstName());
             user.setLastName(userDetails.getLastName());
             user.setRole(userDetails.getRole());
-            user.setIsActive(userDetails.getIsActive());
+            user.setActive(userDetails.isActive());
             user.setUsername(userDetails.getUsername());
 
             return userRepository.save(user);
@@ -56,7 +56,7 @@ public class UserService implements IUserService {
     @Override
     public void setUserState(Long user_id, boolean state) throws RessourceNotFoundException {
         User user = readOneUser(user_id);
-        user.setIsActive(state);
+        user.setActive(state);
         userRepository.save(user);
     }
 

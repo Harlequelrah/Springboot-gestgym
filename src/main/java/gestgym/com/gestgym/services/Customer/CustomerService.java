@@ -43,7 +43,7 @@ public class CustomerService implements ICustomerService {
             customer.setLast_name(customerDetails.getLast_name());
             customer.setRegistration_date(customerDetails.getRegistration_date());
             customer.setPhone_number(customerDetails.getPhone_number());
-            customer.setActive_suscription(customerDetails.getActive_suscription());
+            customer.setActive_suscription(customerDetails.isActive_suscription());
 
             return customerRepository.save(customer);
         } catch (Exception e) {

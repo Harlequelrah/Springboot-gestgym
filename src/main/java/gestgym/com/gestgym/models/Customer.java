@@ -2,15 +2,16 @@ package gestgym.com.gestgym.models;
 
 import java.time.LocalDateTime;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.CurrentTimestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "customers")
+@Table(name = "customer")
 public class Customer {
 
     @Id
@@ -38,8 +39,6 @@ public class Customer {
     @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     private String last_name;
 
-    @CurrentTimestamp
-    @Column(updatable = false)
     @NotNull(message = "Registration date is mandatory")
     private LocalDateTime registration_date;
 
@@ -47,11 +46,13 @@ public class Customer {
     @Pattern(regexp = "^\\+?[0-9. ()-]{7,25}$", message = "Phone number is invalid")
     private String phone_number;
 
-    @NotNull(message = "Active subscription status is mandatory")
-    private Boolean active_suscription;
+    private boolean active_suscription;
 
-    @Email(message = "Email should be valid")
-    @NotBlank(message = "Email is mandatory")
-    @Column(unique = true)
-    private String email;
+    @PrePersist
+    protected void onCreate() {
+        if (this.registration_date == null) {
+            this.registration_date = LocalDateTime.now();
+        }
+    }
+
 }

@@ -36,8 +36,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Lastname is mandatory")
     private String lastName;
 
-    @NotNull
-    private Boolean isActive;
+    private boolean isActive;
 
     @Column(unique = true)
     @NotBlank(message = "Username is mandatory")
