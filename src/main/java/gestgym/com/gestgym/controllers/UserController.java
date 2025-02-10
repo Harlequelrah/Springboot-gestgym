@@ -25,13 +25,13 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/read-all-users")
+    @GetMapping("")
     public ResponseEntity<List<User>> readAllUser() {
         List<User> users = userService.readAllUser();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/read-one-user/{user_id}")
+    @GetMapping("/{user_id}")
     public ResponseEntity<User> readOneUser(@PathVariable Long user_id) throws RessourceNotFoundException {
         User user = userService.readOneUser(user_id);
         return ResponseEntity.ok(user);
@@ -39,13 +39,13 @@ public class UserController {
 
 
 
-    @PutMapping("/update-user/{user_id}")
+    @PutMapping("/{user_id}")
     public ResponseEntity<User> updateUser(@PathVariable Long user_id, @RequestBody User user) throws RessourceNotFoundException, RessourceUpdateException {
         User updatedUser = userService.updateUser(user_id, user);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/delete-user/{user_id}")
+    @DeleteMapping("/{user_id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long user_id) throws RessourceNotFoundException, RessourceDeletionException {
         userService.deleteUser(user_id);
         return ResponseEntity.noContent().build();

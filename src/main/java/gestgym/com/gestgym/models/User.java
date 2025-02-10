@@ -17,9 +17,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Entity
@@ -30,15 +33,18 @@ public class User implements UserDetails {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
     @NotBlank(message="Firstname is mandatory")
     private String firstName;
 
+    @Size(min = 2, max = 50, message = "Last name must be between 2 and 50 characters")
     @NotBlank(message = "Lastname is mandatory")
     private String lastName;
 
     private boolean isActive;
 
     @Column(unique = true)
+    @Size(min = 2, max = 50, message = "Username must be between 2 and 50 characters")
     @NotBlank(message = "Username is mandatory")
     private String username;
 
@@ -46,7 +52,9 @@ public class User implements UserDetails {
     // private List<Token> tokens;
 
 
-    @NotBlank(message = "Password is mandatory")
+    @NotBlank(message="Password is mandatory")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$", message = "Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character , and be at least 8 characters long.")
+    // @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
     private String password;
 
     @Enumerated(value = EnumType.STRING)
@@ -85,11 +93,4 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority(role.name()));
 
     }
-
-
-
-
-
-
-
 }

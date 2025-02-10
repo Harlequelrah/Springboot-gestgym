@@ -49,10 +49,12 @@ public class SecurityConfig {
                     cors.configurationSource(source);
                 })
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/login/**", "/register/**","/refresh-token/**")
+                        req -> req.requestMatchers("/login/**","/refresh-token/**")
                                 .permitAll()
                                 .requestMatchers("/customers/**", "/packs/**", "/suscriptions/**")
                                 .hasAnyAuthority("ADMIN", "RECEPTIONIST")
+                                .requestMatchers("/users/**")
+                                .hasAnyAuthority("ADMIN")
                                 .anyRequest()
                                 .authenticated())
                 .userDetailsService(iUserDetailsService)

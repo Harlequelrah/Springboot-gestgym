@@ -26,31 +26,31 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping("/read-all-customer")
+    @GetMapping("")
     public ResponseEntity<List<Customer>> readAllCustomer() {
         List<Customer> customers = customerService.readAllCustomer();
         return ResponseEntity.ok(customers);
     }
 
-    @GetMapping("/read-one-customer/{customer_id}")
+    @GetMapping("/{customer_id}")
     public ResponseEntity<Customer> readOneCustomer(@PathVariable Long customer_id) throws RessourceNotFoundException {
         Customer customer = customerService.readOneCustomer(customer_id);
         return ResponseEntity.ok(customer);
     }
 
-    @PostMapping("/save-customer")
+    @PostMapping("")
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         Customer saveCustomer = customerService.saveCustomer(customer);
         return ResponseEntity.ok(saveCustomer);
     }
 
-    @PutMapping("/update-customer/{customer_id}")
+    @PutMapping("/{customer_id}")
     public ResponseEntity<Customer> updateCustomer(@PathVariable Long customer_id, @RequestBody Customer customer) throws RessourceNotFoundException, RessourceUpdateException {
         Customer saveCustomer = customerService.updateCustomer(customer_id, customer);
         return ResponseEntity.ok(saveCustomer);
     }
 
-    @DeleteMapping("/delete-customer/{customer_id}")
+    @DeleteMapping("/{customer_id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long customer_id) throws RessourceNotFoundException, RessourceDeletionException {
         customerService.deleteCustomer(customer_id);
         return ResponseEntity.noContent().build();

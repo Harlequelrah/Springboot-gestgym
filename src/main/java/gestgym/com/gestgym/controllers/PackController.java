@@ -25,30 +25,30 @@ public class PackController {
     @Autowired
     private PackService packService;
 
-    @GetMapping("/read-all-pack")
+    @GetMapping("")
     public ResponseEntity<List<Pack>> readAllPack() {
         List<Pack> packs = packService.readAllPack();
         return ResponseEntity.ok(packs);
     }
 
-    @GetMapping("/read-one-pack/{pack_id}")
+    @GetMapping("/{pack_id}")
     public ResponseEntity<Pack> readOnePack(@PathVariable Long pack_id) throws RessourceNotFoundException {
         Pack pack = packService.readOnePack(pack_id);
         return ResponseEntity.ok(pack);
     }
 
-    @PostMapping("/save-pack")
+    @PostMapping("")
     public ResponseEntity<Pack> savePack(@RequestBody Pack pack) {
         Pack savePack = packService.savePack(pack);
         return ResponseEntity.ok(savePack);
     }
-    @PutMapping("/update-pack/{pack_id}")
+    @PutMapping("/{pack_id}")
     public ResponseEntity<Pack> updatePack(@PathVariable Long pack_id , @RequestBody Pack pack) throws RessourceNotFoundException, RessourceUpdateException
     {
         Pack savePack = packService.updatePack(pack_id, pack);
         return ResponseEntity.ok(savePack);
     }
-    @DeleteMapping("/delete-pack/{pack_id}")
+    @DeleteMapping("/{pack_id}")
     public ResponseEntity<Void> deletePack(@PathVariable Long pack_id) throws RessourceNotFoundException, RessourceDeletionException
     {
         packService.deletePack(pack_id);
