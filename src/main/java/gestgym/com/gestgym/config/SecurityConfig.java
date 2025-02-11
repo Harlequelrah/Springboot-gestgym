@@ -19,7 +19,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import gestgym.com.gestgym.filter.JwtAuthenticationFilter;
-import gestgym.com.gestgym.services.User.IUserDetailsService;
+import gestgym.com.gestgym.services.user.IUserDetailsService;
 
 @Configuration
 @EnableWebSecurity

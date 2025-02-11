@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Suscription;
+package gestgym.com.gestgym.services.suscription;
 
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.exceptions.RessourceUpdateException;
@@ -7,13 +7,14 @@ import gestgym.com.gestgym.models.Customer;
 import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.models.Suscription;
 import gestgym.com.gestgym.repositories.SuscriptionRepository;
-import gestgym.com.gestgym.services.Customer.CustomerService;
-import gestgym.com.gestgym.services.Pack.PackService;
+import gestgym.com.gestgym.services.customer.CustomerService;
+import gestgym.com.gestgym.services.pack.PackService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SuscriptionService implements ISuscriptionService {
@@ -28,7 +29,7 @@ public class SuscriptionService implements ISuscriptionService {
     private PackService  packService;
 
     @Override
-    public List<Suscription> readAllSuscription() {
+    public List<Suscription> readAllSuscriptions() {
         return suscriptionRepository.findAll();
     }
 
@@ -70,6 +71,22 @@ public class SuscriptionService implements ISuscriptionService {
         } catch (Exception e) {
             throw new RessourceDeletionException("Failed to delete suscription with id " + suscription_id, e);
         }
+    }
+
+    @Override
+    public List<Suscription> readAllSuscriptionsByCustomerId(Long customerId) throws RessourceNotFoundException {
+        Customer customer = customerService.readOneCustomer(customerId);
+        return suscriptionRepository.findAll().stream()
+                .filter(suscription -> suscription.getCustomer().equals(customer))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Suscription> readAllSuscriptionsByPackId(Long PackId) throws RessourceNotFoundException {
+        Pack pack = packService.readOnePack(PackId);
+        return suscriptionRepository.findAll().stream()
+                .filter(suscription -> suscription.getPack().equals(pack))
+                .collect(Collectors.toList());
     }
 
 }

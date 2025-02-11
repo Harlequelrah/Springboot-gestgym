@@ -17,7 +17,7 @@ import gestgym.com.gestgym.exceptions.RessourceDeletionException;
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.exceptions.RessourceUpdateException;
 import gestgym.com.gestgym.models.Pack;
-import gestgym.com.gestgym.services.Pack.PackService;
+import gestgym.com.gestgym.services.pack.PackService;
 
 @RestController
 @RequestMapping("/packs")

@@ -50,8 +50,8 @@ public class Customer {
 
     @PrePersist
     protected void onCreate() {
-        if (this.registration_date == null) {
-            this.registration_date = LocalDateTime.now();
+        if (this.getRegistration_date() == null) {
+            this.setRegistration_date(LocalDateTime.now());
         }
     }
 

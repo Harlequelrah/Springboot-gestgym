@@ -10,8 +10,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import gestgym.com.gestgym.services.Jwt.JwtService;
-import gestgym.com.gestgym.services.User.IUserDetailsService;
+import gestgym.com.gestgym.services.jwt.JwtService;
+import gestgym.com.gestgym.services.user.IUserDetailsService;
+
 import org.springframework.lang.NonNull;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

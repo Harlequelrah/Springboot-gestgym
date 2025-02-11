@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Customer;
+package gestgym.com.gestgym.services.customer;
 
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.exceptions.RessourceUpdateException;
@@ -62,5 +62,25 @@ public class CustomerService implements ICustomerService {
             throw new RessourceDeletionException("Failed to delete customer with id " + customer_id, e);
         }
     }
+
+    @Override
+    public Customer readCustomerByName(String full_name) throws RessourceNotFoundException {
+        final String trimmedFullName = full_name.trim();
+
+        String[] nameParts = trimmedFullName.split(" ", 2);
+        if (nameParts.length < 2) {
+            throw new RessourceNotFoundException("Invalid full name format");
+        }
+
+        String lastName = nameParts[0].trim().toLowerCase();
+        String firstName = nameParts[1].trim().toLowerCase();
+
+        return customerRepository.findAll().stream()
+                .filter(customer -> customer.getLast_name().toLowerCase().equals(lastName) &&
+                                    customer.getFirst_name().toLowerCase().equals(firstName))
+                .findFirst()
+                .orElseThrow(() -> new RessourceNotFoundException("Customer with name " + trimmedFullName + " not found"));
+    }
+
 
 }

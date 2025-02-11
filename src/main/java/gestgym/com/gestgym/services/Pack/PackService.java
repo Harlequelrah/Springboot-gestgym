@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Pack;
+package gestgym.com.gestgym.services.pack;
 
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.exceptions.RessourceUpdateException;

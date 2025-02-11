@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.User;
+package gestgym.com.gestgym.services.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

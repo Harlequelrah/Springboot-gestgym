@@ -19,9 +19,9 @@ import gestgym.com.gestgym.exceptions.RessourceUpdateException;
 import gestgym.com.gestgym.models.Customer;
 import gestgym.com.gestgym.models.Pack;
 import gestgym.com.gestgym.models.Suscription;
-import gestgym.com.gestgym.services.Customer.CustomerService;
-import gestgym.com.gestgym.services.Pack.PackService;
-import gestgym.com.gestgym.services.Suscription.SuscriptionService;
+import gestgym.com.gestgym.services.customer.CustomerService;
+import gestgym.com.gestgym.services.pack.PackService;
+import gestgym.com.gestgym.services.suscription.SuscriptionService;
 
 @RestController
 @RequestMapping("/suscriptions")
@@ -36,8 +36,22 @@ public class SuscriptionController {
     private PackService packService;
 
     @GetMapping("")
-    public ResponseEntity<List<Suscription>> readAllSuscription() {
-        List<Suscription> suscriptions = suscriptionService.readAllSuscription();
+    public ResponseEntity<List<Suscription>> readAllSuscriptions() {
+        List<Suscription> suscriptions = suscriptionService.readAllSuscriptions();
+        return ResponseEntity.ok(suscriptions);
+    }
+
+    @GetMapping("/customer/{customer_id}")
+    public ResponseEntity<List<Suscription>> readAllSuscriptionsByCustomerId(@PathVariable Long customer_id)
+            throws RessourceNotFoundException {
+        List<Suscription> suscriptions = suscriptionService.readAllSuscriptionsByCustomerId(customer_id);
+        return ResponseEntity.ok(suscriptions);
+    }
+
+    @GetMapping("/pack/{pack_id}")
+    public ResponseEntity<List<Suscription>> readAllSuscriptionsByPackId(@PathVariable Long pack_id)
+            throws RessourceNotFoundException {
+        List<Suscription> suscriptions = suscriptionService.readAllSuscriptionsByPackId(pack_id);
         return ResponseEntity.ok(suscriptions);
     }
 

@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Jwt;
+package gestgym.com.gestgym.services.jwt;
 
 import java.util.Date;
 import java.util.function.Function;

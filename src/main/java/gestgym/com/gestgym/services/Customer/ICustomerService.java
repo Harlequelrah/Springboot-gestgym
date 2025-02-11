@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Customer;
+package gestgym.com.gestgym.services.customer;
 
 import java.util.List;
 
@@ -11,6 +11,8 @@ public interface ICustomerService {
     public List<Customer> readAllCustomer();
 
     public Customer readOneCustomer(Long customer_id) throws RessourceNotFoundException;
+
+    public Customer readCustomerByName(String full_name) throws RessourceNotFoundException;
 
     public Customer saveCustomer(Customer customer);
 

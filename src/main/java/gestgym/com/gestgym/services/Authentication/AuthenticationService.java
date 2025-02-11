@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Authentication;
+package gestgym.com.gestgym.services.authentication;
 
 import java.util.Optional;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import gestgym.com.gestgym.models.AuthenticationResponse;
 import gestgym.com.gestgym.models.User;
 import gestgym.com.gestgym.repositories.UserRepository;
-import gestgym.com.gestgym.services.Jwt.JwtService;
+import gestgym.com.gestgym.services.jwt.JwtService;
 
 @Service
 public class AuthenticationService implements IAuthenticationService {

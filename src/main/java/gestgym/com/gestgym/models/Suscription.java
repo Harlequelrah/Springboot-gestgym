@@ -3,6 +3,7 @@ package gestgym.com.gestgym.models;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -11,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -46,6 +48,14 @@ public class Suscription {
 
     @Transient
     private Long customer_id;
+
+    @PrePersist
+    protected void onCreate()
+    {
+        if (this.getStart_date() == null) {
+            this.setStart_date(LocalDateTime.now());
+        }
+    }
 
 
 }

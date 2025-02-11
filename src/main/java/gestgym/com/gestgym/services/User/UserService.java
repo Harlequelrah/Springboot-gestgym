@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.User;
+package gestgym.com.gestgym.services.user;
 
 import java.util.List;
 

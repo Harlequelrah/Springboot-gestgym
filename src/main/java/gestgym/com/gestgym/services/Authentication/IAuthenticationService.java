@@ -1,4 +1,4 @@
-package gestgym.com.gestgym.services.Authentication;
+package gestgym.com.gestgym.services.authentication;
 
 import gestgym.com.gestgym.models.AuthenticationResponse;
 import gestgym.com.gestgym.models.User;

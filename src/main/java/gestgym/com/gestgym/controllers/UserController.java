@@ -16,7 +16,7 @@ import gestgym.com.gestgym.exceptions.RessourceDeletionException;
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
 import gestgym.com.gestgym.exceptions.RessourceUpdateException;
 import gestgym.com.gestgym.models.User;
-import gestgym.com.gestgym.services.User.UserService;
+import gestgym.com.gestgym.services.user.UserService;
 
 @RestController
 @RequestMapping("/users")
