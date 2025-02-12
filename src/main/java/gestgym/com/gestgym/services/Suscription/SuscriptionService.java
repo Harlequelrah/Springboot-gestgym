@@ -26,7 +26,7 @@ public class SuscriptionService implements ISuscriptionService {
     private CustomerService customerService;
 
     @Autowired
-    private PackService  packService;
+    private PackService packService;
 
     @Override
     public List<Suscription> readAllSuscriptions() {
@@ -36,7 +36,8 @@ public class SuscriptionService implements ISuscriptionService {
     @Override
     public Suscription readOneSuscription(Long suscription_id) throws RessourceNotFoundException {
         return suscriptionRepository.findById(suscription_id)
-                .orElseThrow(() -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
+                .orElseThrow(
+                        () -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
     }
 
     @Override
@@ -49,13 +50,14 @@ public class SuscriptionService implements ISuscriptionService {
     }
 
     @Override
-    public Suscription updateSuscription(Long suscription_id, Suscription suscriptionDetails) throws RessourceNotFoundException, RessourceUpdateException {
+    public Suscription updateSuscription(Long suscription_id, Suscription suscriptionDetails)
+            throws RessourceNotFoundException, RessourceUpdateException {
         Suscription suscription = suscriptionRepository.findById(suscription_id)
-                .orElseThrow(() -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
-
+                .orElseThrow(
+                        () -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
         try {
             suscription.setStart_date(suscriptionDetails.getStart_date());
-            return this.saveSuscription(suscription);
+            return suscriptionRepository.save(suscription);
         } catch (Exception e) {
             throw new RessourceUpdateException("Failed to update suscription with id " + suscription_id, e);
         }
@@ -64,7 +66,8 @@ public class SuscriptionService implements ISuscriptionService {
     @Override
     public void deleteSuscription(Long suscription_id) throws RessourceNotFoundException, RessourceDeletionException {
         Suscription suscription = suscriptionRepository.findById(suscription_id)
-                .orElseThrow(() -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
+                .orElseThrow(
+                        () -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
 
         try {
             suscriptionRepository.delete(suscription);
@@ -87,6 +90,29 @@ public class SuscriptionService implements ISuscriptionService {
         return suscriptionRepository.findAll().stream()
                 .filter(suscription -> suscription.getPack().equals(pack))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Suscription changeSuscriptionStatus(Long suscription_id, Suscription suscriptionDetails)
+            throws RessourceNotFoundException, RessourceUpdateException {
+        Suscription suscription = suscriptionRepository.findById(suscription_id)
+                .orElseThrow(
+                        () -> new RessourceNotFoundException("Suscription with id " + suscription_id + " not found"));
+        try {
+            Customer customer = suscription.getCustomer();
+            if (!suscriptionDetails.isActive()) {
+                if (customer.isActive_suscription()) {
+                    throw new RessourceUpdateException("Failed to update suscription with id " + suscription_id
+                            + "because customer has already an active suscription");
+                }
+            }
+            suscription.setActive(!suscription.isActive());
+            customer.setActive_suscription(!customer.isActive_suscription());
+            customerService.updateCustomer(customer.getId(), customer);
+            return suscriptionRepository.save(suscription);
+        } catch (Exception e) {
+            throw new RessourceUpdateException("Failed to update suscription with id " + suscription_id, e);
+        }
     }
 
 }

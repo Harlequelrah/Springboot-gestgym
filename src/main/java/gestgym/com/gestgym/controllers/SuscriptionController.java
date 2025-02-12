@@ -85,4 +85,13 @@ public class SuscriptionController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/change-state/{suscription_id}")
+    public ResponseEntity<Suscription>changeSuscriptionStatus(@PathVariable Long suscription_id,@RequestBody Suscription changedSuscription)throws RessourceNotFoundException,RessourceUpdateException
+    {
+        Suscription suscription = suscriptionService.changeSuscriptionStatus(suscription_id,changedSuscription);
+        return ResponseEntity.ok(suscription);
+    }
+
+
+
 }

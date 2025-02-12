@@ -3,6 +3,7 @@ package gestgym.com.gestgym.services.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import gestgym.com.gestgym.exceptions.RessourceNotFoundException;
@@ -15,6 +16,9 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> readAllUser() {
@@ -33,6 +37,10 @@ public class UserService implements IUserService {
                 .orElseThrow(() -> new RessourceNotFoundException("User with id " + user_id + " not found"));
 
         try {
+            if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty())
+            {
+                user.setPassword(passwordEncoder.encode(userDetails.getPassword()));
+            }
             user.setFirstName(userDetails.getFirstName());
             user.setLastName(userDetails.getLastName());
             user.setRole(userDetails.getRole());

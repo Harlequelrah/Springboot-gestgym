@@ -43,6 +43,8 @@ public class Suscription {
     @NotNull(message = "Start date is mandatory")
     private LocalDateTime start_date;
 
+    private boolean isActive;
+
     @Transient
     private Long pack_id;
 

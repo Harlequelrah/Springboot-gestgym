@@ -18,9 +18,15 @@ public interface ISuscriptionService {
 
     public Suscription saveSuscription(Suscription suscription) throws RessourceNotFoundException;
 
-    public Suscription updateSuscription(Long suscription_id, Suscription suscription) throws RessourceNotFoundException, RessourceUpdateException;
+    public Suscription changeSuscriptionStatus(Long suscription_id, Suscription suscription)
+            throws RessourceNotFoundException,
+            RessourceUpdateException;
+
+    public Suscription updateSuscription(Long suscription_id, Suscription suscription)
+            throws RessourceNotFoundException, RessourceUpdateException;
 
     public void deleteSuscription(Long suscription_id) throws RessourceNotFoundException, RessourceDeletionException;
+
 
 
 }
