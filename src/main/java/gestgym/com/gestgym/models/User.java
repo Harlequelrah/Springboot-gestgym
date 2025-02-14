@@ -48,13 +48,9 @@ public class User implements UserDetails {
     @NotBlank(message = "Username is mandatory")
     private String username;
 
-    // @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    // private List<Token> tokens;
-
 
     @NotBlank(message="Password is mandatory")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&]).{8,}$", message = "Password must contain at least one lowercase letter, one uppercase letter, one digit, one special character , and be at least 8 characters long.")
-    // @Size(min = 8, max = 50, message = "Password must be between 8 and 50 characters")
     private String password;
 
     @Enumerated(value = EnumType.STRING)
